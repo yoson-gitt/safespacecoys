@@ -643,13 +643,13 @@
                 <div class="next-match-label"><span class="live-dot"></span>Next Match</div>
                 <div class="match-teams">
                     <div class="team">
-                        <div class="team-badge" id="homeTeamBadge">🔴</div>
-                        <div class="team-name" id="homeTeamName">Arsenal</div>
+                        <div class="team-badge" id="homeTeamBadge">🤍</div>
+                        <div class="team-name" id="homeTeamName">Spurs</div>
                     </div>
                     <div class="match-vs">vs</div>
                     <div class="team">
-                        <div class="team-badge spurs">🐓</div>
-                        <div class="team-name spurs">Spurs</div>
+                        <div class="team-badge" id="awayTeamBadge">🔵</div>
+                        <div class="team-name" id="awayTeamName">Man City</div>
                     </div>
                 </div>
                 <div class="match-info">
@@ -1038,17 +1038,10 @@
         function updateMatchDisplay() {
             try {
                 const match = MATCH_DATA.nextMatch;
-                if (match.isHome) {
-                    $('homeTeamBadge').textContent = match.homeTeamBadge;
-                    $('homeTeamName').textContent = match.homeTeam;
-                    $('awayTeamBadge').textContent = match.awayTeamBadge;
-                    $('awayTeamName').textContent = match.awayTeam;
-                } else {
-                    $('homeTeamBadge').textContent = match.homeTeamBadge;
-                    $('homeTeamName').textContent = match.homeTeam;
-                    $('awayTeamBadge').textContent = '🤍';
-                    $('awayTeamName').textContent = 'Spurs';
-                }
+                $('homeTeamBadge').textContent = match.homeTeamBadge;
+                $('homeTeamName').textContent = match.homeTeam;
+                $('awayTeamBadge').textContent = match.awayTeamBadge;
+                $('awayTeamName').textContent = match.awayTeam;
                 $('matchVenue').textContent = match.venue;
                 $('matchCompetition').textContent = match.competition;
             } catch (e) {}
