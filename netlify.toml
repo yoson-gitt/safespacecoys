@@ -1,0 +1,67 @@
+[build]
+  publish = "."
+  command = "echo 'Static site'"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+
+# 图标文件重定向
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/public/favicon.ico"
+  status = 200
+
+[[redirects]]
+  from = "/favicon-16x16.png"
+  to = "/public/favicon-16x16.png"
+  status = 200
+
+[[redirects]]
+  from = "/favicon-32x32.png"
+  to = "/public/favicon-32x32.png"
+  status = 200
+
+[[redirects]]
+  from = "/apple-touch-icon.png"
+  to = "/public/apple-touch-icon.png"
+  status = 200
+
+[[redirects]]
+  from = "/icon-192.png"
+  to = "/public/icon-192.png"
+  status = 200
+
+[[redirects]]
+  from = "/icon-512.png"
+  to = "/public/icon-512.png"
+  status = 200
+
+[[redirects]]
+  from = "/manifest.json"
+  to = "/public/manifest.json"
+  status = 200
+
+[[redirects]]
+  from = "/og-image.png"
+  to = "/public/og-image.png"
+  status = 200
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/public/robots.txt"
+  status = 200
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/public/sitemap.xml"
+  status = 200
