@@ -1,0 +1,27 @@
+{
+  "name": "Safe Space COYS",
+  "short_name": "SafeSpace",
+  "description": "Mental health support for Tottenham Hotspur fans",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1433",
+  "theme_color": "#132257",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr"
+}

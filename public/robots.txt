@@ -1,0 +1,7 @@
+# Safe Space COYS - robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://safespacecoys.com/sitemap.xml

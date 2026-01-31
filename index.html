@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Primary Meta Tags -->
+    <title>Safe Space COYS - Mental Health Support for Spurs Fans</title>
+    <meta name="title" content="Safe Space COYS - Mental Health Support for Spurs Fans">
+    <meta name="description" content="A sanctuary for the long-suffering. Track your mood, use coping tools, and connect with fellow Tottenham supporters who understand.">
+    <meta name="keywords" content="Spurs, Tottenham, COYS, mental health, anxiety, football, coping, mindfulness, CBT">
+    <meta name="author" content="Safe Space COYS">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://safespacecoys.com/">
+    <meta property="og:title" content="Safe Space COYS - Mental Health Support for Spurs Fans">
+    <meta property="og:description" content="A sanctuary for the long-suffering. Track your mood, use coping tools, and connect with fellow supporters.">
+    <meta property="og:image" content="https://safespacecoys.com/og-image.png">
+    <meta property="og:locale" content="en_GB">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://safespacecoys.com/">
+    <meta property="twitter:title" content="Safe Space COYS - Mental Health Support for Spurs Fans">
+    <meta property="twitter:description" content="A sanctuary for the long-suffering. Track your mood, use coping tools, and connect with fellow supporters.">
+    <meta property="twitter:image" content="https://safespacecoys.com/og-image.png">
+    
+    <!-- PWA / Mobile -->
+    <meta name="theme-color" content="#132257">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SafeSpace">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://safespacecoys.com/">
+    
+    <style>
+        :root {
+            --navy: #132257;
+            --navy-light: #1a2d6b;
+            --navy-dark: #0a1433;
+            --white: #ffffff;
+            --gold: #d4af37;
+            --gold-soft: #e8d59a;
+            --gold-text: #f0d78c; /* Higher contrast for accessibility */
+            --accent-blue: #7b9cd6;
+            --text-muted: #a0a8b8; /* Improved contrast ratio */
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(165deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+            min-height: 100vh;
+            color: var(--white);
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .app-container { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 20, 51, 0.6);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .logo-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+        .logo-text { font-family: 'Archivo Black', sans-serif; font-size: 18px; line-height: 1.2; }
+        .logo-text span { color: var(--gold); }
+        .tagline { font-size: 11px; color: var(--text-muted); margin-bottom: 24px; font-style: italic; padding-left: 60px; margin-top: -4px; }
+        
+        /* Next Match */
+        .next-match {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .next-match-label {
+            font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-muted); margin-bottom: 12px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .live-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .match-teams { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .team { text-align: center; flex: 1; }
+        .team-badge {
+            width: 48px; height: 48px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 8px;
+            border: 1px solid var(--border);
+        }
+        .team-badge.spurs { background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.1) 100%); border-color: rgba(212,175,55,0.3); }
+        .team-name { font-size: 12px; font-weight: 600; }
+        .team-name.spurs { color: var(--gold-text); }
+        .match-vs { font-size: 12px; color: var(--text-muted); padding: 0 12px; }
+        .match-info { display: flex; justify-content: center; gap: 16px; font-size: 11px; color: var(--text-muted); margin-bottom: 16px; }
+        .match-info-item { display: flex; align-items: center; gap: 4px; }
+        .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+        .countdown-item { background: var(--card-bg); border-radius: 8px; padding: 10px 4px; }
+        .countdown-value { font-family: 'Archivo Black', sans-serif; font-size: 20px; color: var(--gold-text); line-height: 1; }
+        .countdown-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+        
+        /* Drought Counter */
+        .drought-counter {
+            background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.05) 100%);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .drought-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold-soft); margin-bottom: 6px; }
+        .drought-number { font-family: 'Archivo Black', sans-serif; font-size: 32px; color: var(--gold-text); line-height: 1; }
+        .drought-unit { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        
+        /* Navigation */
+        .nav-section { margin-bottom: 24px; }
+        .nav-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 12px; padding-left: 12px; }
+        .nav-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px; border-radius: 12px;
+            cursor: pointer; transition: all 0.2s ease;
+            margin-bottom: 4px; color: var(--text-muted); font-weight: 500;
+        }
+        .nav-item:hover { background: var(--card-bg); color: var(--white); }
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.1) 100%);
+            color: var(--white); border: 1px solid rgba(212,175,55,0.3);
+        }
+        .nav-item.active .nav-icon { color: var(--gold); }
+        .nav-item.locked::after { content: '🔒'; font-size: 12px; margin-left: auto; }
+        .nav-icon { font-size: 20px; width: 24px; text-align: center; }
+        
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 32px 48px; max-width: 1000px; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Page Header */
+        .page-header { margin-bottom: 40px; }
+        .page-title { font-family: 'Archivo Black', sans-serif; font-size: 36px; letter-spacing: -1px; margin-bottom: 8px; }
+        .page-subtitle { font-size: 15px; color: var(--text-muted); max-width: 500px; }
+        
+        /* Mood Section */
+        .mood-section {
+            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.02) 100%);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 24px; padding: 36px; margin-bottom: 40px;
+        }
+        .mood-question { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; margin-bottom: 8px; }
+        .mood-subtext { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; }
+        .mood-options { display: flex; gap: 12px; flex-wrap: wrap; }
+        .mood-option {
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            padding: 20px 24px; background: var(--card-bg);
+            border: 2px solid var(--border); border-radius: 16px;
+            cursor: pointer; transition: all 0.2s ease; min-width: 120px;
+        }
+        .mood-option:hover { border-color: var(--gold); transform: translateY(-3px); }
+        .mood-option.selected { border-color: var(--gold); background: rgba(212,175,55,0.1); }
+        .mood-emoji { font-size: 36px; }
+        .mood-label { font-size: 13px; font-weight: 600; text-align: center; }
+        .mood-spurs { font-size: 11px; color: var(--text-muted); text-align: center; font-style: italic; }
+        
+        /* Tools Grid */
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .section-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; }
+        .section-link { font-size: 14px; color: var(--gold); cursor: pointer; }
+        .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .tool-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px 20px; text-align: center;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .tool-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .tool-icon { font-size: 32px; margin-bottom: 12px; }
+        .tool-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .tool-duration { font-size: 12px; color: var(--text-muted); }
+
+        /* Cards */
+        .cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 40px; }
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 28px; transition: all 0.3s ease;
+        }
+        .card:hover { border-color: rgba(212,175,55,0.3); transform: translateY(-2px); }
+        .card.locked { opacity: 0.7; }
+        .card.locked:hover { transform: none; }
+        .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+        .card-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .card-icon.mood { background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.1) 100%); }
+        .card-icon.toolkit { background: linear-gradient(135deg, rgba(123,156,214,0.2) 0%, rgba(123,156,214,0.1) 100%); }
+        .card-icon.community { background: linear-gradient(135deg, rgba(39,174,96,0.2) 0%, rgba(39,174,96,0.1) 100%); }
+        .card-icon.journal { background: linear-gradient(135deg, rgba(155,89,182,0.2) 0%, rgba(155,89,182,0.1) 100%); }
+        .card-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: rgba(255,255,255,0.1); color: var(--text-muted); }
+        .card-title { font-family: 'Archivo Black', sans-serif; font-size: 20px; margin-bottom: 8px; }
+        .card-description { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        .card-action {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+            color: var(--navy-dark); border: none; border-radius: 10px;
+            font-weight: 600; font-size: 14px; cursor: pointer;
+            transition: all 0.2s ease; font-family: inherit;
+        }
+        .card-action:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+        .card-action.secondary { background: var(--card-bg); border: 1px solid var(--border); color: var(--white); }
+        .card-action.secondary:hover { border-color: var(--gold); box-shadow: none; }
+        .card-action.locked { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-muted); }
+
+        /* Community */
+        .community-header { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 10px 18px; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 20px;
+            font-size: 13px; font-weight: 500; color: var(--text-muted);
+            cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+        }
+        .filter-btn:hover { border-color: var(--text-muted); color: var(--white); }
+        .filter-btn.active { background: rgba(212,175,55,0.2); border-color: var(--gold); color: var(--gold); }
+        .new-post-btn {
+            margin-left: auto; padding: 12px 24px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+            border: none; border-radius: 12px; font-weight: 600; color: var(--navy-dark);
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            font-family: inherit; transition: all 0.2s ease;
+        }
+        .feed-posts { display: flex; flex-direction: column; gap: 16px; }
+        .feed-post { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+        .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .post-avatar { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--accent-blue) 0%, var(--navy) 100%); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .post-meta { flex: 1; }
+        .post-author { font-weight: 600; font-size: 14px; }
+        .post-time { font-size: 12px; color: var(--text-muted); }
+        .post-tag { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+        .post-tag.vent { background: rgba(231,76,60,0.2); color: #e74c3c; }
+        .post-tag.support { background: rgba(39,174,96,0.2); color: #27ae60; }
+        .post-tag.match { background: rgba(212,175,55,0.2); color: var(--gold); }
+        .post-content { font-size: 15px; line-height: 1.6; margin-bottom: 16px; }
+        .post-actions { display: flex; gap: 20px; }
+        .post-action { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+        .post-action:hover { color: var(--white); }
+
+        /* Profile Page */
+        .profile-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .profile-avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px; font-weight: 700; color: var(--navy-dark);
+        }
+        .profile-info { flex: 1; }
+        .profile-name { font-family: 'Archivo Black', sans-serif; font-size: 24px; margin-bottom: 4px; }
+        .profile-email { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+        .profile-since { font-size: 13px; color: var(--gold); }
+        .profile-actions { display: flex; gap: 12px; }
+        .logout-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--danger);
+            border-radius: 10px;
+            color: var(--danger);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        .logout-btn:hover { background: rgba(231,76,60,0.1); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+        .stat-value { font-family: 'Archivo Black', sans-serif; font-size: 32px; color: var(--gold); margin-bottom: 4px; }
+        .stat-label { font-size: 13px; color: var(--text-muted); }
+
+        .history-list { display: flex; flex-direction: column; gap: 12px; }
+        .history-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .history-emoji { font-size: 28px; }
+        .history-details { flex: 1; }
+        .history-emotion { font-weight: 600; font-size: 15px; }
+        .history-meta { font-size: 13px; color: var(--text-muted); }
+        .history-intensity {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 18px;
+            color: var(--gold);
+        }
+
+        .login-required {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .login-required-icon { font-size: 64px; margin-bottom: 24px; }
+        .login-required-title { font-family: 'Archivo Black', sans-serif; font-size: 24px; margin-bottom: 12px; }
+        .login-required-text { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 20, 51, 0.9); backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--navy); border: 1px solid var(--border);
+            border-radius: 24px; width: 100%; max-width: 480px;
+            max-height: 90vh; overflow-y: auto; animation: modalSlide 0.3s ease;
+        }
+        .modal.wide { max-width: 560px; }
+        @keyframes modalSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { padding: 28px 32px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .modal-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; }
+        .modal-close {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; transition: all 0.2s ease;
+        }
+        .modal-close:hover { background: rgba(231,76,60,0.2); border-color: rgba(231,76,60,0.3); color: #e74c3c; }
+        .modal-body { padding: 32px; }
+        .modal-footer { padding: 20px 32px 32px; display: flex; gap: 12px; }
+
+        /* Auth Modal */
+        .auth-icon { width: 72px; height: 72px; background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.1) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 24px; }
+        .auth-title { font-family: 'Archivo Black', sans-serif; font-size: 24px; text-align: center; margin-bottom: 8px; }
+        .auth-subtitle { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 32px; line-height: 1.5; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+        .form-input { width: 100%; padding: 14px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; color: var(--white); font-size: 15px; font-family: inherit; }
+        .form-input:focus { outline: none; border-color: var(--gold); }
+        .form-input::placeholder { color: var(--text-muted); }
+        .btn { flex: 1; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; font-family: inherit; }
+        .btn-primary { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%); color: var(--navy-dark); }
+        .btn-primary:hover { box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+        .btn-secondary { background: var(--card-bg); border: 1px solid var(--border); color: var(--white); }
+        .auth-benefits { background: var(--card-bg); border-radius: 12px; padding: 20px; margin-top: 24px; }
+        .auth-benefits-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+        .auth-benefit { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+        .auth-benefit-icon { color: var(--success); }
+        .email-sent { text-align: center; padding: 20px 0; }
+        .email-sent-icon { font-size: 64px; margin-bottom: 24px; }
+        .email-sent-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; margin-bottom: 12px; }
+        .email-sent-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
+        .email-sent-address { color: var(--gold); font-weight: 600; }
+        .resend-link { font-size: 13px; color: var(--text-muted); }
+        .resend-link a { color: var(--gold); cursor: pointer; }
+
+        /* Check-in Steps */
+        .checkin-step { display: none; }
+        .checkin-step.active { display: block; animation: fadeIn 0.3s ease; }
+        .step-indicator { display: flex; gap: 8px; margin-bottom: 28px; }
+        .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+        .step-dot.active { background: var(--gold); width: 24px; border-radius: 4px; }
+        .step-dot.completed { background: var(--success); }
+        .step-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .step-description { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .emotion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+        .emotion-option { padding: 16px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; }
+        .emotion-option:hover { border-color: var(--gold); }
+        .emotion-option.selected { border-color: var(--gold); background: rgba(212,175,55,0.1); }
+        .emotion-option .emoji { font-size: 28px; margin-bottom: 8px; }
+        .emotion-option .label { font-size: 13px; font-weight: 600; }
+        .intensity-value { text-align: center; font-family: 'Archivo Black', sans-serif; font-size: 48px; color: var(--gold); margin: 20px 0; }
+        .intensity-slider input[type="range"] { width: 100%; height: 8px; cursor: pointer; -webkit-appearance: none; background: var(--border); border-radius: 4px; }
+        .intensity-slider input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: var(--white); border-radius: 50%; cursor: pointer; }
+        .slider-labels { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: var(--text-muted); }
+        .trigger-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .trigger-tag { padding: 10px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; cursor: pointer; }
+        .trigger-tag:hover { border-color: var(--gold); }
+        .trigger-tag.selected { background: rgba(212,175,55,0.2); border-color: var(--gold); color: var(--gold); }
+        .result-card { background: linear-gradient(135deg, rgba(39,174,96,0.15) 0%, rgba(39,174,96,0.05) 100%); border: 1px solid rgba(39,174,96,0.3); border-radius: 16px; padding: 24px; text-align: center; }
+        .result-icon { font-size: 48px; margin-bottom: 16px; }
+        .result-title { font-family: 'Archivo Black', sans-serif; font-size: 20px; margin-bottom: 8px; }
+        .result-message { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+        /* Tool Modals */
+        .tool-content { text-align: center; padding: 20px 0; }
+        .tool-visual {
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 32px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 64px;
+        }
+        .tool-visual.breathing {
+            background: radial-gradient(circle, rgba(212,175,55,0.3) 0%, rgba(212,175,55,0.1) 50%, transparent 70%);
+            animation: breathe 8s ease-in-out infinite;
+        }
+        .tool-visual.grounding {
+            background: radial-gradient(circle, rgba(123,156,214,0.3) 0%, rgba(123,156,214,0.1) 50%, transparent 70%);
+        }
+        .tool-visual.reframe {
+            background: radial-gradient(circle, rgba(39,174,96,0.3) 0%, rgba(39,174,96,0.1) 50%, transparent 70%);
+        }
+        .tool-visual.affirmation {
+            background: radial-gradient(circle, rgba(155,89,182,0.3) 0%, rgba(155,89,182,0.1) 50%, transparent 70%);
+        }
+        .tool-visual.paused { animation-play-state: paused; }
+        @keyframes breathe { 0%, 100% { transform: scale(0.8); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
+        .tool-instruction { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .tool-detail { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .tool-timer { font-family: 'Archivo Black', sans-serif; font-size: 24px; color: var(--gold); margin-bottom: 24px; }
+
+        .grounding-step { margin-bottom: 24px; }
+        .grounding-prompt { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .grounding-count { font-family: 'Archivo Black', sans-serif; font-size: 64px; color: var(--gold); }
+        .grounding-sense { font-size: 16px; color: var(--text-muted); }
+
+        .thought-input { margin-bottom: 24px; }
+        .thought-input textarea {
+            width: 100%; padding: 16px; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 12px;
+            color: var(--white); font-size: 15px; font-family: inherit;
+            resize: none; min-height: 100px;
+        }
+        .thought-input textarea:focus { outline: none; border-color: var(--gold); }
+        .reframe-questions { text-align: left; }
+        .reframe-question {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .reframe-question p { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+        .reframe-question strong { color: var(--white); }
+
+        .affirmation-card {
+            background: linear-gradient(135deg, rgba(155,89,182,0.2) 0%, rgba(155,89,182,0.1) 100%);
+            border: 1px solid rgba(155,89,182,0.3);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .affirmation-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar { width: 80px; padding: 20px 12px; }
+            .logo-text, .tagline, .nav-label, .nav-item span, .drought-label, .drought-unit, .next-match-label, .match-info, .countdown-label, .team-name, .match-vs { display: none; }
+            .logo, .nav-item { justify-content: center; }
+            .nav-item { padding: 14px; }
+            .nav-item.locked::after { display: none; }
+            .next-match, .drought-counter { padding: 12px; }
+            .team-badge { width: 36px; height: 36px; font-size: 20px; }
+            .countdown { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+            .countdown-item { padding: 8px 4px; }
+            .countdown-value { font-size: 16px; }
+            .drought-number { font-size: 24px; }
+            .main-content { margin-left: 80px; padding: 24px; }
+            .tools-grid, .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 20px 16px 100px; }
+            .mobile-nav { display: flex; }
+            .mood-options { grid-template-columns: repeat(2, 1fr); }
+            .emotion-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .profile-header { flex-direction: column; text-align: center; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 400px) {
+            .mood-options { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .mood-option { padding: 12px 8px; }
+            .mood-emoji { font-size: 28px; }
+            .tools-grid { gap: 8px; }
+            .tool-card { padding: 16px 12px; }
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 20, 51, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            z-index: 100;
+            justify-content: space-around;
+        }
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 8px 16px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 10px;
+            background: none;
+            border: none;
+            font-family: inherit;
+            transition: color 0.15s ease;
+        }
+        .mobile-nav-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+        .mobile-nav-item.active { color: var(--gold-text); }
+        .mobile-nav-item .nav-icon { font-size: 22px; }
+
+        /* Feedback Section */
+        .feedback-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
+        .feedback-title { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+        .feedback-buttons { display: flex; justify-content: center; gap: 12px; }
+        .feedback-btn { padding: 10px 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; cursor: pointer; font-family: inherit; color: var(--white); transition: all 0.15s ease; }
+        .feedback-btn:hover { border-color: var(--gold); }
+        .feedback-btn.selected { background: rgba(46,204,113,0.2); border-color: var(--success); }
+        .feedback-thanks { font-size: 13px; color: var(--success); margin-top: 12px; display: none; }
+        .feedback-thanks.show { display: block; }
+
+        /* Mood Chart */
+        .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 24px; }
+        .chart-title { font-weight: 600; font-size: 15px; margin-bottom: 16px; }
+        .chart-canvas { width: 100%; height: 150px; }
+        .chart-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 13px; }
+
+        /* New Post Form */
+        .new-post-form { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: none; }
+        .new-post-form.active { display: block; }
+        .new-post-form textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 10px; color: var(--white); font-size: 14px; font-family: inherit; resize: none; min-height: 80px; }
+        .new-post-form textarea:focus { outline: none; border-color: var(--gold); }
+        .new-post-form textarea::placeholder { color: var(--text-muted); }
+        .new-post-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .post-type-select { display: flex; gap: 8px; }
+        .post-type-btn { padding: 6px 12px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; font-size: 11px; color: var(--text-muted); cursor: pointer; font-family: inherit; }
+        .post-type-btn.active { background: rgba(212,175,55,0.2); border-color: var(--gold); color: var(--gold-text); }
+        .post-action-btn { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: inherit; padding: 4px 8px; }
+        .post-action-btn:hover { color: var(--white); }
+
+        /* Privacy Modal */
+        .privacy-content { font-size: 13px; line-height: 1.6; color: var(--text-muted); }
+        .privacy-content h3 { color: var(--white); font-size: 15px; margin: 16px 0 8px; }
+        .privacy-content h3:first-child { margin-top: 0; }
+        .privacy-content ul { margin-left: 20px; margin-bottom: 12px; }
+
+        /* Form Validation */
+        .form-input.error { border-color: var(--danger); }
+        .form-error { font-size: 11px; color: var(--danger); margin-top: 4px; display: none; }
+        .form-error.show { display: block; }
+
+        /* Focus visible for accessibility */
+        .nav-item:focus-visible, .mood-option:focus-visible, .tool-card:focus-visible, .card-action:focus-visible, .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+        /* Skip link for accessibility */
+        .skip-link { position: absolute; top: -40px; left: 0; background: var(--gold); color: var(--navy-dark); padding: 8px 16px; z-index: 9999; font-weight: 600; }
+        .skip-link:focus { top: 0; }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🐓</div>
+                <div class="logo-text">Safe Space<br><span>COYS</span></div>
+            </div>
+            <div class="tagline">A sanctuary for the long-suffering</div>
+            
+            <div class="next-match">
+                <div class="next-match-label"><span class="live-dot"></span>Next Match</div>
+                <div class="match-teams">
+                    <div class="team">
+                        <div class="team-badge" id="homeTeamBadge">🔴</div>
+                        <div class="team-name" id="homeTeamName">Arsenal</div>
+                    </div>
+                    <div class="match-vs">vs</div>
+                    <div class="team">
+                        <div class="team-badge spurs">🐓</div>
+                        <div class="team-name spurs">Spurs</div>
+                    </div>
+                </div>
+                <div class="match-info">
+                    <div class="match-info-item"><span>📍</span><span id="matchVenue">Emirates</span></div>
+                    <div class="match-info-item"><span>🏆</span><span id="matchCompetition">PL</span></div>
+                </div>
+                <div class="countdown">
+                    <div class="countdown-item"><div class="countdown-value" id="countdownDays">2</div><div class="countdown-label">Days</div></div>
+                    <div class="countdown-item"><div class="countdown-value" id="countdownHours">14</div><div class="countdown-label">Hrs</div></div>
+                    <div class="countdown-item"><div class="countdown-value" id="countdownMinutes">32</div><div class="countdown-label">Min</div></div>
+                    <div class="countdown-item"><div class="countdown-value" id="countdownSeconds">45</div><div class="countdown-label">Sec</div></div>
+                </div>
+            </div>
+            
+            <div class="drought-counter">
+                <div class="drought-label">Trophy Drought</div>
+                <div class="drought-number" id="droughtDays">6,205</div>
+                <div class="drought-unit">days without a trophy</div>
+            </div>
+            
+            <nav class="nav-section">
+                <div class="nav-label">Main</div>
+                <div class="nav-item active" data-page="home"><span class="nav-icon">🏠</span><span>Home</span></div>
+                <div class="nav-item" data-page="toolkit"><span class="nav-icon">🧰</span><span>Coping Toolkit</span></div>
+                <div class="nav-item locked" data-page="community"><span class="nav-icon">👥</span><span>Community</span></div>
+            </nav>
+            <nav class="nav-section">
+                <div class="nav-label">Personal</div>
+                <div class="nav-item" data-page="profile"><span class="nav-icon">👤</span><span>My Profile</span></div>
+            </nav>
+        </aside>
+        
+        <main class="main-content" id="main" role="main">
+            <!-- Home Page - Simplified -->
+            <div class="page active" id="page-home">
+                <header class="page-header">
+                    <h1 class="page-title">How are you holding up?</h1>
+                    <p class="page-subtitle">Take a moment to check in with yourself.</p>
+                </header>
+                
+                <section class="mood-section">
+                    <h2 class="mood-question">How Spursy are you feeling today?</h2>
+                    <p class="mood-subtext">Select an emotion to start your check-in</p>
+                    <div class="mood-options">
+                        <div class="mood-option" onclick="selectQuickMood(this, 'frustrated', '😤')"><div class="mood-emoji">😤</div><div class="mood-label">Frustrated</div><div class="mood-spurs">"Same old story"</div></div>
+                        <div class="mood-option" onclick="selectQuickMood(this, 'anxious', '😰')"><div class="mood-emoji">😰</div><div class="mood-label">Anxious</div><div class="mood-spurs">"2-0 lead energy"</div></div>
+                        <div class="mood-option" onclick="selectQuickMood(this, 'sad', '😔')"><div class="mood-emoji">😔</div><div class="mood-label">Sad</div><div class="mood-spurs">"Post-match blues"</div></div>
+                        <div class="mood-option" onclick="selectQuickMood(this, 'numb', '😐')"><div class="mood-emoji">😐</div><div class="mood-label">Numb</div><div class="mood-spurs">"Can't hurt anymore"</div></div>
+                        <div class="mood-option" onclick="selectQuickMood(this, 'hopeful', '🤞')"><div class="mood-emoji">🤞</div><div class="mood-label">Hopeful</div><div class="mood-spurs">"This is our year"</div></div>
+                        <div class="mood-option" onclick="selectQuickMood(this, 'content', '😊')"><div class="mood-emoji">😊</div><div class="mood-label">Content</div><div class="mood-spurs">"Win or lose, COYS"</div></div>
+                    </div>
+                </section>
+                
+                <section>
+                    <div class="section-header"><h2 class="section-title">Quick Coping Tools</h2></div>
+                    <div class="tools-grid">
+                        <div class="tool-card" onclick="openToolModal('breathing')"><div class="tool-icon">🌬️</div><div class="tool-name">Box Breathing</div><div class="tool-duration">1 min</div></div>
+                        <div class="tool-card" onclick="openToolModal('grounding')"><div class="tool-icon">🎯</div><div class="tool-name">5-4-3-2-1 Ground</div><div class="tool-duration">2 min</div></div>
+                        <div class="tool-card" onclick="openToolModal('reframe')"><div class="tool-icon">🧠</div><div class="tool-name">Thought Reframe</div><div class="tool-duration">3 min</div></div>
+                        <div class="tool-card" onclick="openToolModal('affirmation')"><div class="tool-icon">💪</div><div class="tool-name">Affirmations</div><div class="tool-duration">30 sec</div></div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Toolkit Page -->
+            <div class="page" id="page-toolkit">
+                <header class="page-header"><h1 class="page-title">Coping Toolkit</h1><p class="page-subtitle">Evidence-based techniques for the long-suffering fan</p></header>
+                <div class="cards-grid">
+                    <div class="card"><div class="card-header"><div class="card-icon mood">🌬️</div><span class="card-badge">Breathing</span></div><h3 class="card-title">Box Breathing</h3><p class="card-description">A clinically-proven 4-4-4-4 breathing technique to calm your nervous system. Perfect for VAR decisions and penalty shootouts.</p><button class="card-action" onclick="openToolModal('breathing')">Start Exercise →</button></div>
+                    <div class="card"><div class="card-header"><div class="card-icon toolkit">🎯</div><span class="card-badge">Grounding</span></div><h3 class="card-title">5-4-3-2-1 Technique</h3><p class="card-description">Ground yourself in the present moment when anxiety takes over. Uses your five senses to bring you back to reality.</p><button class="card-action" onclick="openToolModal('grounding')">Start Exercise →</button></div>
+                    <div class="card"><div class="card-header"><div class="card-icon community">🧠</div><span class="card-badge">CBT</span></div><h3 class="card-title">Thought Reframing</h3><p class="card-description">"We always bottle it" - Let's examine this thought with cognitive behavioral therapy techniques. Is it really true?</p><button class="card-action" onclick="openToolModal('reframe')">Start Exercise →</button></div>
+                    <div class="card"><div class="card-header"><div class="card-icon journal">💪</div><span class="card-badge">Positive Psychology</span></div><h3 class="card-title">Spurs Fan Affirmations</h3><p class="card-description">Positive statements designed specifically for the Spurs fan experience. Build resilience through self-compassion.</p><button class="card-action" onclick="openToolModal('affirmation')">View Affirmations →</button></div>
+                </div>
+            </div>
+
+            <!-- Community Page -->
+            <div class="page" id="page-community">
+                <header class="page-header"><h1 class="page-title">Community</h1><p class="page-subtitle">A safe space for fellow sufferers.</p></header>
+                
+                <!-- New Post Form -->
+                <div class="new-post-form" id="newPostForm">
+                    <textarea id="newPostContent" placeholder="Share what's on your mind..." aria-label="New post content"></textarea>
+                    <div class="new-post-actions">
+                        <div class="post-type-select">
+                            <button class="post-type-btn active" data-type="vent" onclick="selectPostType(this)">😤 Vent</button>
+                            <button class="post-type-btn" data-type="support" onclick="selectPostType(this)">🤝 Support</button>
+                        </div>
+                        <button class="btn btn-primary" onclick="submitPost()">Post</button>
+                    </div>
+                </div>
+                
+                <div class="community-header">
+                    <button class="filter-btn active" data-filter="all">All Posts</button>
+                    <button class="filter-btn" data-filter="vent">😤 Vent</button>
+                    <button class="filter-btn" data-filter="support">🤝 Support</button>
+                    <button class="new-post-btn" onclick="toggleNewPostForm()">✍️ New Post</button>
+                </div>
+                <div class="feed-posts" id="communityFeed"></div>
+            </div>
+            
+            <!-- Profile Page -->
+            <div class="page" id="page-profile">
+                <header class="page-header"><h1 class="page-title">My Profile</h1><p class="page-subtitle">Your personal dashboard and check-in history</p></header>
+                
+                <!-- Logged Out State -->
+                <div id="profileLoggedOut">
+                    <div class="login-required">
+                        <div class="login-required-icon">🔒</div>
+                        <h2 class="login-required-title">Join the Safe Space</h2>
+                        <p class="login-required-text">Sign in to track your mood history, see your stats, and connect with the community.</p>
+                        <button class="btn btn-primary" onclick="openAuthModal()">Sign In with Email</button>
+                    </div>
+                </div>
+
+                <!-- Logged In State -->
+                <div id="profileLoggedIn" style="display: none;">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">FS</div>
+                        <div class="profile-info">
+                            <div class="profile-name" id="profileName">Fellow Sufferer</div>
+                            <div class="profile-email" id="profileEmail">user@example.com</div>
+                            <div class="profile-since">🐓 Suffering since joining</div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="logout-btn" onclick="handleLogout()">Log Out</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-value" id="statCheckins">0</div><div class="stat-label">Check-ins</div></div>
+                        <div class="stat-card"><div class="stat-value" id="statStreak">0</div><div class="stat-label">Day Streak</div></div>
+                        <div class="stat-card"><div class="stat-value" id="statTools">0</div><div class="stat-label">Tools Used</div></div>
+                        <div class="stat-card"><div class="stat-value" id="statAvgMood">--</div><div class="stat-label">Avg Mood</div></div>
+                    </div>
+
+                    <!-- Mood Chart -->
+                    <div class="chart-container">
+                        <div class="chart-title">Last 7 Days Mood Intensity</div>
+                        <canvas id="moodChart" class="chart-canvas" aria-label="Mood intensity chart"></canvas>
+                        <div class="chart-empty" id="chartEmpty">Complete more check-ins to see your trend</div>
+                    </div>
+
+                    <div class="section-header"><h2 class="section-title">Recent Check-ins</h2></div>
+                    <div class="history-list" id="checkinHistory">
+                        <div class="history-item"><div class="history-emoji">😰</div><div class="history-details"><div class="history-emotion">Anxious</div><div class="history-meta">Today, 2:30 PM • Match Result</div></div><div class="history-intensity">7/10</div></div>
+                        <div class="history-item"><div class="history-emoji">🤞</div><div class="history-details"><div class="history-emotion">Hopeful</div><div class="history-meta">Yesterday, 10:15 AM • Transfer News</div></div><div class="history-intensity">6/10</div></div>
+                        <div class="history-item"><div class="history-emoji">😤</div><div class="history-details"><div class="history-emotion">Frustrated</div><div class="history-meta">Jan 28, 8:45 PM • VAR Decision</div></div><div class="history-intensity">8/10</div></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <div class="modal-header"><h2 class="modal-title">Join the Safe Space</h2><button class="modal-close" onclick="closeAuthModal()">✕</button></div>
+            <div class="modal-body">
+                <div id="authForm">
+                    <div class="auth-icon">🐓</div>
+                    <h3 class="auth-title">Welcome, Fellow Sufferer</h3>
+                    <p class="auth-subtitle">Enter your email to join. We'll send you a magic link - no password needed.</p>
+                    <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="authEmail" placeholder="you@example.com"></div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="sendMagicLink()">Send Magic Link</button>
+                    <div class="auth-benefits"><div class="auth-benefits-title">With an account you can:</div><div class="auth-benefit"><span class="auth-benefit-icon">✓</span><span>Track your mood history over time</span></div><div class="auth-benefit"><span class="auth-benefit-icon">✓</span><span>See your personal stats and insights</span></div><div class="auth-benefit"><span class="auth-benefit-icon">✓</span><span>Connect with the community</span></div></div>
+                </div>
+                <div id="emailSent" style="display: none;">
+                    <div class="email-sent"><div class="email-sent-icon">📬</div><h3 class="email-sent-title">Check Your Inbox</h3><p class="email-sent-text">We've sent a magic link to<br><span class="email-sent-address" id="sentEmailAddress">you@example.com</span></p><p class="email-sent-text">Click the link to join. Expires in 24 hours.</p><p class="resend-link">Didn't receive it? <a onclick="resendMagicLink()">Resend</a></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check-in Modal -->
+    <div class="modal-overlay" id="checkinModal">
+        <div class="modal wide">
+            <div class="modal-header"><h2 class="modal-title">Mood Check-in</h2><button class="modal-close" onclick="closeCheckinModal()">✕</button></div>
+            <div class="modal-body">
+                <div class="checkin-step active" id="step1">
+                    <div class="step-indicator"><div class="step-dot active"></div><div class="step-dot"></div><div class="step-dot"></div></div>
+                    <h3 class="step-title">You selected: <span id="selectedEmotionLabel">Anxious</span></h3>
+                    <p class="step-description">Let's explore this feeling a bit more.</p>
+                    <div style="text-align: center; font-size: 64px; margin: 32px 0;" id="selectedEmotionEmoji">😰</div>
+                </div>
+                <div class="checkin-step" id="step2">
+                    <div class="step-indicator"><div class="step-dot completed"></div><div class="step-dot active"></div><div class="step-dot"></div></div>
+                    <h3 class="step-title">How intense is this feeling?</h3>
+                    <p class="step-description">1 = barely noticeable, 10 = overwhelming</p>
+                    <div class="intensity-value" id="intensityValue">5</div>
+                    <div class="intensity-slider"><input type="range" min="1" max="10" value="5" oninput="updateIntensity(this.value)"></div>
+                    <div class="slider-labels"><span>Manageable</span><span>Moderate</span><span>Overwhelming</span></div>
+                </div>
+                <div class="checkin-step" id="step3">
+                    <div class="step-indicator"><div class="step-dot completed"></div><div class="step-dot completed"></div><div class="step-dot active"></div></div>
+                    <h3 class="step-title">What triggered this?</h3>
+                    <p class="step-description">Optional - helps identify patterns</p>
+                    <div class="trigger-tags">
+                        <div class="trigger-tag" onclick="selectTrigger(this)">⚽ Match Result</div>
+                        <div class="trigger-tag" onclick="selectTrigger(this)">📺 VAR Decision</div>
+                        <div class="trigger-tag" onclick="selectTrigger(this)">🔄 Transfer News</div>
+                        <div class="trigger-tag" onclick="selectTrigger(this)">🏟️ Derby Day</div>
+                        <div class="trigger-tag" onclick="selectTrigger(this)">📱 Social Media</div>
+                        <div class="trigger-tag" onclick="selectTrigger(this)">💭 General Life</div>
+                    </div>
+                </div>
+                <div class="checkin-step" id="step4">
+                    <div class="result-card"><div class="result-icon">✅</div><h3 class="result-title">Check-in Saved</h3><p class="result-message">Well done for taking a moment to check in. Based on your response, try one of these tools:</p></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px;">
+                        <div class="tool-card" onclick="closeCheckinModal(); openToolModal('breathing')"><div class="tool-icon">🌬️</div><div class="tool-name">Breathing</div></div>
+                        <div class="tool-card" onclick="closeCheckinModal(); openToolModal('grounding')"><div class="tool-icon">🎯</div><div class="tool-name">Grounding</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalFooter"><button class="btn btn-secondary" onclick="prevStep()">Back</button><button class="btn btn-primary" onclick="nextStep()">Continue</button></div>
+        </div>
+    </div>
+
+    <!-- Tool Modal -->
+    <div class="modal-overlay" id="toolModal">
+        <div class="modal wide">
+            <div class="modal-header"><h2 class="modal-title" id="toolModalTitle">Tool</h2><button class="modal-close" onclick="closeToolModal()">✕</button></div>
+            <div class="modal-body" id="toolModalBody"></div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal-overlay" id="privacyModal">
+        <div class="modal">
+            <div class="modal-header"><h2 class="modal-title">Privacy & Data</h2><button class="modal-close" onclick="closePrivacyModal()">✕</button></div>
+            <div class="modal-body">
+                <div class="privacy-content">
+                    <h3>🔒 Your Data Stays Local</h3>
+                    <p>All your mood check-ins, tool usage, and preferences are stored <strong style="color: var(--white);">only on your device</strong> using your browser's local storage.</p>
+                    
+                    <h3>📊 What We Store</h3>
+                    <ul>
+                        <li>Mood check-in history (emotion, intensity, trigger, date)</li>
+                        <li>Tool usage count and feedback</li>
+                        <li>Community posts you create</li>
+                        <li>Email (for login only)</li>
+                    </ul>
+                    
+                    <h3>🚫 What We Don't Do</h3>
+                    <ul>
+                        <li>Send data to external servers</li>
+                        <li>Share or sell your information</li>
+                        <li>Track you across websites</li>
+                        <li>Use cookies for advertising</li>
+                    </ul>
+                    
+                    <h3>🗑️ Delete Your Data</h3>
+                    <p>Clear your browser's local storage to remove all data, or use the button below:</p>
+                    <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="clearAllData()">Clear All My Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+        <button class="mobile-nav-item active" data-page="home" aria-label="Home">
+            <span class="nav-icon">🏠</span>Home
+        </button>
+        <button class="mobile-nav-item" data-page="toolkit" aria-label="Toolkit">
+            <span class="nav-icon">🧰</span>Tools
+        </button>
+        <button class="mobile-nav-item" data-page="community" aria-label="Community">
+            <span class="nav-icon">👥</span>Community
+        </button>
+        <button class="mobile-nav-item" data-page="profile" aria-label="Profile">
+            <span class="nav-icon">👤</span>Profile
+        </button>
+    </nav>
+
+    <script>
+        // ==========================================
+        // MATCH DATA (Admin configurable)
+        // ==========================================
+        const MATCH_DATA = {
+            nextMatch: {
+                date: '2026-02-01T12:30:00',
+                homeTeam: 'Arsenal',
+                homeTeamBadge: '🔴',
+                venue: 'Emirates Stadium',
+                competition: 'PL',
+                isHome: false
+            },
+            lastTrophyDate: '2008-02-24'
+        };
+
+        // ==========================================
+        // APP STATE
+        // ==========================================
+        let isLoggedIn = false;
+        let userEmail = '';
+        let currentStep = 1;
+        let selectedEmotion = { name: '', emoji: '' };
+        let intensity = 5;
+        let selectedTrigger = '';
+        let checkinHistory = [];
+        let toolsUsed = 0;
+        let toolFeedback = {};
+        let communityPosts = [];
+        let currentPostType = 'vent';
+        let breathingInterval = null;
+        let groundingStep = 5;
+
+        // ==========================================
+        // UTILITIES
+        // ==========================================
+        function $(id) { return document.getElementById(id); }
+        function $$(sel) { return document.querySelectorAll(sel); }
+        
+        function safeJSONParse(str, fallback) {
+            try { return JSON.parse(str) || fallback; }
+            catch (e) { return fallback; }
+        }
+        
+        function saveToStorage(key, data) {
+            try { localStorage.setItem('ssc_' + key, JSON.stringify(data)); }
+            catch (e) { console.warn('Storage error:', e); }
+        }
+        
+        function loadFromStorage(key, fallback) {
+            try { return safeJSONParse(localStorage.getItem('ssc_' + key), fallback); }
+            catch (e) { return fallback; }
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function formatDate(dateStr) {
+            try {
+                const date = new Date(dateStr);
+                const now = new Date();
+                const diffHrs = Math.floor((now - date) / (1000 * 60 * 60));
+                if (diffHrs < 1) return 'Just now';
+                if (diffHrs < 24) return diffHrs + 'h ago';
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            } catch (e) { return 'Recently'; }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ==========================================
+        // INIT
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                loadState();
+                updateMatchDisplay();
+                updateDroughtCounter();
+                startCountdown();
+                setupNavigation();
+                renderCommunityFeed();
+                updateUIForAuthState();
+                updateStats();
+                renderCheckinHistory();
+                renderMoodChart();
+            } catch (e) { console.error('Init error:', e); }
+        });
+
+        function loadState() {
+            userEmail = loadFromStorage('email', '');
+            isLoggedIn = !!userEmail;
+            checkinHistory = loadFromStorage('checkins', []);
+            toolsUsed = loadFromStorage('toolsUsed', 0);
+            toolFeedback = loadFromStorage('toolFeedback', {});
+            communityPosts = loadFromStorage('posts', getDefaultPosts());
+        }
+
+        function getDefaultPosts() {
+            return [
+                { id: 1, author: 'Anonymous Spur', content: "26 years supporting this club. My therapist says 'it's just football' but it's NOT. Anyway, COYS forever.", type: 'vent', date: new Date(Date.now() - 2*60*60*1000).toISOString(), reactions: 47 },
+                { id: 2, author: 'NLD_Survivor', content: "Derby coming up. Already anxious. Anyone else using breathing exercises? They actually help.", type: 'support', date: new Date(Date.now() - 5*60*60*1000).toISOString(), reactions: 89 }
+            ];
+        }
+
+        function updateMatchDisplay() {
+            try {
+                const match = MATCH_DATA.nextMatch;
+                $('homeTeamBadge').textContent = match.homeTeamBadge;
+                $('homeTeamName').textContent = match.homeTeam;
+                $('matchVenue').textContent = match.venue;
+                $('matchCompetition').textContent = match.competition;
+            } catch (e) {}
+        }
+
+        function startCountdown() { updateCountdown(); setInterval(updateCountdown, 1000); }
+
+        function updateCountdown() {
+            try {
+                const diff = new Date(MATCH_DATA.nextMatch.date) - new Date();
+                if (diff <= 0) {
+                    $('countdownDays').textContent = '0';
+                    $('countdownHours').textContent = '0';
+                    $('countdownMinutes').textContent = '0';
+                    $('countdownSeconds').textContent = '0';
+                    return;
+                }
+                $('countdownDays').textContent = Math.floor(diff / 86400000);
+                $('countdownHours').textContent = Math.floor((diff % 86400000) / 3600000);
+                $('countdownMinutes').textContent = Math.floor((diff % 3600000) / 60000);
+                $('countdownSeconds').textContent = Math.floor((diff % 60000) / 1000);
+            } catch (e) {}
+        }
+
+        function updateDroughtCounter() {
+            try {
+                const days = Math.floor((new Date() - new Date(MATCH_DATA.lastTrophyDate)) / 86400000);
+                $('droughtDays').textContent = days.toLocaleString();
+            } catch (e) {}
+        }
+
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
+        function setupNavigation() {
+            $$('.nav-item[data-page], .mobile-nav-item[data-page]').forEach(function(btn) {
+                btn.addEventListener('click', function() { showPage(btn.dataset.page); });
+            });
+        }
+
+        function showPage(pageId) {
+            if (pageId === 'community' && !isLoggedIn) { openAuthModal(); return; }
+            $$('.page').forEach(function(p) { p.classList.remove('active'); });
+            $$('.nav-item, .mobile-nav-item').forEach(function(n) { n.classList.remove('active'); });
+            var page = $('page-' + pageId);
+            if (page) page.classList.add('active');
+            $$('[data-page="' + pageId + '"]').forEach(function(n) { n.classList.add('active'); });
+            if (pageId === 'profile') renderMoodChart();
+        }
+
+        // ==========================================
+        // AUTH
+        // ==========================================
+        function updateUIForAuthState() {
+            $$('.nav-item.locked').forEach(function(el) { el.classList.toggle('locked', !isLoggedIn); });
+            $('profileLoggedOut').style.display = isLoggedIn ? 'none' : 'block';
+            $('profileLoggedIn').style.display = isLoggedIn ? 'block' : 'none';
+            if (isLoggedIn) {
+                $('profileAvatar').textContent = userEmail.substring(0, 2).toUpperCase();
+                $('profileName').textContent = userEmail.split('@')[0];
+                $('profileEmail').textContent = userEmail;
+            }
+        }
+
+        function openAuthModal() {
+            $('authModal').classList.add('active');
+            $('authForm').style.display = 'block';
+            $('emailSent').style.display = 'none';
+            var emailInput = $('authEmail');
+            if (emailInput) { emailInput.value = ''; emailInput.classList.remove('error'); }
+            var errorEl = $('emailError');
+            if (errorEl) errorEl.classList.remove('show');
+        }
+        
+        function closeAuthModal() { $('authModal').classList.remove('active'); }
+
+        function sendMagicLink() {
+            var email = $('authEmail').value.trim();
+            var errorEl = $('emailError');
+            var inputEl = $('authEmail');
+            
+            if (!validateEmail(email)) {
+                if (inputEl) inputEl.classList.add('error');
+                if (errorEl) errorEl.classList.add('show');
+                return;
+            }
+            
+            if (inputEl) inputEl.classList.remove('error');
+            if (errorEl) errorEl.classList.remove('show');
+            
+            $('authForm').style.display = 'none';
+            $('emailSent').style.display = 'block';
+            $('sentEmailAddress').textContent = email;
+            
+            // Simulate login after 1.5s
+            setTimeout(function() {
+                isLoggedIn = true;
+                userEmail = email;
+                saveToStorage('email', email);
+                updateUIForAuthState();
+                closeAuthModal();
+            }, 1500);
+        }
+
+        function resendMagicLink() { alert('Magic link resent!'); }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            userEmail = '';
+            localStorage.removeItem('ssc_email');
+            updateUIForAuthState();
+            showPage('home');
+        }
+
+        // ==========================================
+        // MOOD CHECK-IN
+        // ==========================================
+        function selectQuickMood(el, emotion, emoji) {
+            $$('.mood-option').forEach(function(o) { o.classList.remove('selected'); });
+            el.classList.add('selected');
+            selectedEmotion = { name: emotion, emoji: emoji };
+            setTimeout(openCheckinModal, 250);
+        }
+
+        function openCheckinModal() {
+            $('checkinModal').classList.add('active');
+            $('selectedEmotionLabel').textContent = selectedEmotion.name.charAt(0).toUpperCase() + selectedEmotion.name.slice(1);
+            $('selectedEmotionEmoji').textContent = selectedEmotion.emoji;
+            currentStep = 1;
+            intensity = 5;
+            selectedTrigger = '';
+            $('intensityValue').textContent = '5';
+            $$('.trigger-tag').forEach(function(t) { t.classList.remove('selected'); });
+            updateStepVisibility();
+        }
+
+        function closeCheckinModal() { $('checkinModal').classList.remove('active'); }
+
+        function updateStepVisibility() {
+            $$('.checkin-step').forEach(function(s, i) { s.classList.toggle('active', i + 1 === currentStep); });
+            var footer = $('modalFooter');
+            footer.querySelector('.btn-secondary').style.display = currentStep === 1 ? 'none' : 'block';
+            footer.style.display = currentStep === 4 ? 'none' : 'flex';
+            footer.querySelector('.btn-primary').textContent = currentStep === 3 ? 'Save' : 'Continue';
+        }
+
+        function nextStep() {
+            if (currentStep === 3) saveCheckin();
+            if (currentStep < 4) { currentStep++; updateStepVisibility(); }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) { currentStep--; updateStepVisibility(); }
+        }
+
+        function updateIntensity(val) {
+            intensity = parseInt(val);
+            $('intensityValue').textContent = val;
+        }
+
+        function selectTrigger(el) {
+            $$('#step3 .trigger-tag').forEach(function(t) { t.classList.remove('selected'); });
+            el.classList.add('selected');
+            selectedTrigger = el.textContent;
+        }
+
+        function saveCheckin() {
+            var checkin = {
+                emotion: selectedEmotion.name,
+                emoji: selectedEmotion.emoji,
+                intensity: intensity,
+                trigger: selectedTrigger,
+                date: new Date().toISOString()
+            };
+            checkinHistory.unshift(checkin);
+            saveToStorage('checkins', checkinHistory);
+            updateStats();
+            renderCheckinHistory();
+            renderMoodChart();
+        }
+
+        function renderCheckinHistory() {
+            var container = $('checkinHistory');
+            if (!container) return;
+            if (checkinHistory.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 30px;">No check-ins yet</p>';
+                return;
+            }
+            container.innerHTML = checkinHistory.slice(0, 8).map(function(c) {
+                return '<div class="history-item"><div class="history-emoji">' + c.emoji + '</div><div class="history-details"><div class="history-emotion">' + (c.emotion.charAt(0).toUpperCase() + c.emotion.slice(1)) + '</div><div class="history-meta">' + formatDate(c.date) + (c.trigger ? ' • ' + c.trigger : '') + '</div></div><div class="history-intensity">' + c.intensity + '/10</div></div>';
+            }).join('');
+        }
+
+        function updateStats() {
+            $('statCheckins').textContent = checkinHistory.length;
+            $('statStreak').textContent = calculateStreak();
+            $('statTools').textContent = toolsUsed;
+            if (checkinHistory.length > 0) {
+                var avg = checkinHistory.reduce(function(sum, c) { return sum + c.intensity; }, 0) / checkinHistory.length;
+                $('statAvgMood').textContent = avg.toFixed(1);
+            }
+        }
+
+        function calculateStreak() {
+            if (checkinHistory.length === 0) return 0;
+            var today = new Date().toDateString();
+            if (new Date(checkinHistory[0].date).toDateString() !== today) return 0;
+            var streak = 1;
+            for (var i = 1; i < checkinHistory.length; i++) {
+                var curr = new Date(checkinHistory[i-1].date);
+                var prev = new Date(checkinHistory[i].date);
+                if (Math.floor((curr - prev) / 86400000) === 1) streak++;
+                else break;
+            }
+            return streak;
+        }
+
+        // ==========================================
+        // MOOD CHART (Canvas)
+        // ==========================================
+        function renderMoodChart() {
+            var canvas = $('moodChart');
+            var emptyMsg = $('chartEmpty');
+            if (!canvas) return;
+            
+            var last7Days = getLast7DaysData();
+            if (last7Days.every(function(d) { return d === null; })) {
+                canvas.style.display = 'none';
+                if (emptyMsg) emptyMsg.style.display = 'block';
+                return;
+            }
+            
+            canvas.style.display = 'block';
+            if (emptyMsg) emptyMsg.style.display = 'none';
+            
+            var ctx = canvas.getContext('2d');
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = 150 * 2;
+            ctx.scale(2, 2);
+            
+            var w = rect.width, h = 150;
+            var padding = { top: 20, right: 20, bottom: 30, left: 30 };
+            var chartW = w - padding.left - padding.right;
+            var chartH = h - padding.top - padding.bottom;
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            // Grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = 1;
+            for (var i = 0; i <= 10; i += 2) {
+                var y = padding.top + chartH - (i / 10) * chartH;
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+            }
+            
+            // Data points
+            var points = [];
+            last7Days.forEach(function(val, i) {
+                if (val !== null) {
+                    var x = padding.left + (i / 6) * chartW;
+                    var y = padding.top + chartH - (val / 10) * chartH;
+                    points.push({ x: x, y: y, val: val });
+                }
+            });
+            
+            // Line
+            if (points.length > 1) {
+                ctx.strokeStyle = '#f0d78c';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                points.forEach(function(p) { ctx.lineTo(p.x, p.y); });
+                ctx.stroke();
+            }
+            
+            // Dots
+            points.forEach(function(p) {
+                ctx.fillStyle = '#f0d78c';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // X axis labels
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.font = '10px DM Sans';
+            ctx.textAlign = 'center';
+            var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            for (var i = 0; i < 7; i++) {
+                var date = new Date();
+                date.setDate(date.getDate() - 6 + i);
+                var x = padding.left + (i / 6) * chartW;
+                ctx.fillText(days[date.getDay()], x, h - 8);
+            }
+        }
+
+        function getLast7DaysData() {
+            var data = [null, null, null, null, null, null, null];
+            var now = new Date();
+            checkinHistory.forEach(function(c) {
+                var cDate = new Date(c.date);
+                var diffDays = Math.floor((now - cDate) / 86400000);
+                if (diffDays >= 0 && diffDays < 7) {
+                    var idx = 6 - diffDays;
+                    if (data[idx] === null) data[idx] = c.intensity;
+                }
+            });
+            return data;
+        }
+
+        // ==========================================
+        // TOOLS
+        // ==========================================
+        function openToolModal(tool) {
+            $('toolModal').classList.add('active');
+            toolsUsed++;
+            saveToStorage('toolsUsed', toolsUsed);
+            updateStats();
+            
+            var title = $('toolModalTitle');
+            var body = $('toolModalBody');
+            
+            var feedbackHTML = '<div class="feedback-section"><div class="feedback-title">Was this helpful?</div><div class="feedback-buttons"><button class="feedback-btn" onclick="submitFeedback(\'' + tool + '\', 1)">👍 Yes</button><button class="feedback-btn" onclick="submitFeedback(\'' + tool + '\', 0)">👎 No</button></div><div class="feedback-thanks" id="feedbackThanks">Thanks for your feedback!</div></div>';
+            
+            if (tool === 'breathing') {
+                title.textContent = 'Box Breathing';
+                body.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-bottom: 12px;">Breathe in 4s, hold 4s, out 4s, hold 4s.</p><div class="tool-content"><div class="tool-visual breathing paused" id="breathCircle"><span style="font-family: Archivo Black; font-size: 28px; color: var(--gold-text);" id="breathCount">4</span></div><div class="tool-instruction" id="breathInstruction">Tap Start</div><div class="tool-timer" id="breathCycle"></div></div><button class="btn btn-primary" style="width: 100%;" id="breathBtn" onclick="startBreathing()">Start</button>' + feedbackHTML;
+            } else if (tool === 'grounding') {
+                groundingStep = 5;
+                title.textContent = '5-4-3-2-1 Grounding';
+                body.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-bottom: 12px;">Use your senses to ground yourself.</p><div class="tool-content"><div class="tool-visual grounding"><span style="font-family: Archivo Black; font-size: 56px; color: var(--accent-blue);" id="groundingCount">5</span></div><div class="tool-instruction" id="groundingPrompt">Name 5 things you SEE</div><div class="tool-detail" id="groundingSense">Look around you</div></div><button class="btn btn-primary" style="width: 100%;" onclick="nextGroundingStep()">Next →</button>' + feedbackHTML;
+            } else if (tool === 'reframe') {
+                title.textContent = 'Thought Reframing';
+                body.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-bottom: 16px;">Challenge unhelpful thoughts with CBT.</p><div class="thought-input"><label style="display: block; margin-bottom: 6px; font-weight: 600;">The thought bothering you:</label><textarea placeholder="We always bottle it..."></textarea></div><div class="reframe-questions"><div class="reframe-question"><p><strong>Is this 100% true?</strong></p><p>What evidence supports or contradicts it?</p></div><div class="reframe-question"><p><strong>Is this helpful?</strong></p><p>Does thinking this way help you?</p></div><div class="reframe-question"><p><strong>What would you tell a friend?</strong></p><p>If they had this thought, what would you say?</p></div></div>' + feedbackHTML;
+            } else if (tool === 'affirmation') {
+                var affirmations = ["I can enjoy the match regardless of the result.", "My worth isn't tied to my team's performance.", "Supporting Spurs has given me community and joy.", "I choose to focus on what I can control.", "It's okay to feel disappointed. It shows I care.", "I am resilient. I've survived tough seasons before.", "Win or lose, I'm part of something bigger."];
+                title.textContent = 'Affirmations';
+                body.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">Read slowly. Let it sink in.</p><div class="affirmation-card"><div class="affirmation-text">"' + affirmations[Math.floor(Math.random() * affirmations.length)] + '"</div></div><button class="btn btn-secondary" style="width: 100%;" onclick="openToolModal(\'affirmation\')">Another →</button>' + feedbackHTML;
+            }
+        }
+
+        function closeToolModal() {
+            $('toolModal').classList.remove('active');
+            if (breathingInterval) { clearInterval(breathingInterval); breathingInterval = null; }
+        }
+
+        function startBreathing() {
+            var phases = ['Breathe In', 'Hold', 'Breathe Out', 'Hold'];
+            var phase = 0, count = 4, cycles = 0;
+            $('breathCircle').classList.remove('paused');
+            $('breathBtn').textContent = 'Stop';
+            $('breathBtn').onclick = stopBreathing;
+            
+            function tick() {
+                $('breathCount').textContent = count;
+                $('breathInstruction').textContent = phases[phase];
+                $('breathCycle').textContent = 'Cycle ' + (cycles + 1) + '/4';
+                count--;
+                if (count < 0) { count = 4; phase = (phase + 1) % 4; if (phase === 0) cycles++; }
+                if (cycles >= 4) {
+                    clearInterval(breathingInterval);
+                    breathingInterval = null;
+                    $('breathCount').textContent = '✓';
+                    $('breathInstruction').textContent = 'Great job!';
+                    $('breathCycle').textContent = '';
+                    $('breathBtn').textContent = 'Done';
+                    $('breathBtn').onclick = closeToolModal;
+                    $('breathCircle').classList.add('paused');
+                }
+            }
+            tick();
+            breathingInterval = setInterval(tick, 1000);
+        }
+
+        function stopBreathing() {
+            if (breathingInterval) { clearInterval(breathingInterval); breathingInterval = null; }
+            $('breathCircle').classList.add('paused');
+            $('breathCount').textContent = '4';
+            $('breathInstruction').textContent = 'Tap Start';
+            $('breathCycle').textContent = '';
+            $('breathBtn').textContent = 'Start';
+            $('breathBtn').onclick = startBreathing;
+        }
+
+        function nextGroundingStep() {
+            groundingStep--;
+            var prompts = {
+                4: { text: 'Name 4 things you TOUCH', sense: 'Feel textures around you' },
+                3: { text: 'Name 3 things you HEAR', sense: 'Listen to your environment' },
+                2: { text: 'Name 2 things you SMELL', sense: 'Notice any scents' },
+                1: { text: 'Name 1 thing you TASTE', sense: 'Notice the taste in your mouth' },
+                0: { text: 'You are grounded', sense: 'Well done! You are present.' }
+            };
+            $('groundingCount').textContent = groundingStep > 0 ? groundingStep : '✓';
+            $('groundingPrompt').textContent = prompts[groundingStep].text;
+            $('groundingSense').textContent = prompts[groundingStep].sense;
+            if (groundingStep === 0) {
+                var btn = document.querySelector('#toolModalBody .btn-primary');
+                if (btn) { btn.textContent = 'Done'; btn.onclick = closeToolModal; }
+            }
+        }
+
+        function submitFeedback(tool, helpful) {
+            toolFeedback[tool] = toolFeedback[tool] || { helpful: 0, notHelpful: 0 };
+            if (helpful) toolFeedback[tool].helpful++;
+            else toolFeedback[tool].notHelpful++;
+            saveToStorage('toolFeedback', toolFeedback);
+            
+            $$('.feedback-btn').forEach(function(btn) { btn.classList.remove('selected'); });
+            event.target.classList.add('selected');
+            var thanks = $('feedbackThanks');
+            if (thanks) thanks.classList.add('show');
+        }
+
+        // ==========================================
+        // COMMUNITY
+        // ==========================================
+        function renderCommunityFeed() {
+            var container = $('communityFeed');
+            if (!container) return;
+            
+            container.innerHTML = communityPosts.map(function(post) {
+                return '<div class="feed-post" data-id="' + post.id + '" data-type="' + post.type + '"><div class="post-header"><div class="post-avatar">' + (post.type === 'vent' ? '😤' : '🤝') + '</div><div class="post-meta"><div class="post-author">' + escapeHtml(post.author) + '</div><div class="post-time">' + formatDate(post.date) + '</div></div><span class="post-tag ' + post.type + '">' + (post.type === 'vent' ? '😤 Vent' : '🤝 Support') + '</span></div><div class="post-content">' + escapeHtml(post.content) + '</div><div class="post-actions"><button class="post-action-btn" onclick="reactToPost(' + post.id + ')">🤝 ' + post.reactions + '</button><button class="post-action-btn">💬 Reply</button></div></div>';
+            }).join('');
+        }
+
+        function toggleNewPostForm() {
+            var form = $('newPostForm');
+            if (form) {
+                form.classList.toggle('active');
+                if (form.classList.contains('active')) {
+                    var textarea = $('newPostContent');
+                    if (textarea) textarea.focus();
+                }
+            }
+        }
+
+        function selectPostType(btn) {
+            $$('.post-type-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            currentPostType = btn.dataset.type;
+        }
+
+        function submitPost() {
+            var content = $('newPostContent').value.trim();
+            if (!content) return;
+            
+            var newPost = {
+                id: Date.now(),
+                author: userEmail ? userEmail.split('@')[0] : 'Anonymous',
+                content: content,
+                type: currentPostType,
+                date: new Date().toISOString(),
+                reactions: 0
+            };
+            
+            communityPosts.unshift(newPost);
+            saveToStorage('posts', communityPosts);
+            
+            $('newPostContent').value = '';
+            $('newPostForm').classList.remove('active');
+            renderCommunityFeed();
+        }
+
+        function reactToPost(postId) {
+            var post = communityPosts.find(function(p) { return p.id === postId; });
+            if (post) {
+                post.reactions++;
+                saveToStorage('posts', communityPosts);
+                renderCommunityFeed();
+            }
+        }
+
+        // Filter buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn')) {
+                $$('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                e.target.classList.add('active');
+                var filter = e.target.dataset.filter;
+                
+                $$('.feed-post').forEach(function(post) {
+                    if (filter === 'all') post.style.display = 'block';
+                    else post.style.display = post.dataset.type === filter ? 'block' : 'none';
+                });
+            }
+        });
+
+        // ==========================================
+        // PRIVACY
+        // ==========================================
+        function openPrivacyModal() { $('privacyModal').classList.add('active'); }
+        function closePrivacyModal() { $('privacyModal').classList.remove('active'); }
+
+        function clearAllData() {
+            if (confirm('This will delete all your check-ins, posts, and settings. Continue?')) {
+                Object.keys(localStorage).forEach(function(key) {
+                    if (key.startsWith('ssc_')) localStorage.removeItem(key);
+                });
+                checkinHistory = [];
+                communityPosts = getDefaultPosts();
+                toolsUsed = 0;
+                toolFeedback = {};
+                isLoggedIn = false;
+                userEmail = '';
+                updateUIForAuthState();
+                updateStats();
+                renderCheckinHistory();
+                renderMoodChart();
+                renderCommunityFeed();
+                closePrivacyModal();
+                alert('All data cleared.');
+            }
+        }
+
+        // ==========================================
+        // KEYBOARD & ACCESSIBILITY
+        // ==========================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                $$('.modal-overlay.active').forEach(function(m) { m.classList.remove('active'); });
+                if (breathingInterval) { clearInterval(breathingInterval); breathingInterval = null; }
+            }
+        });
+
+        // Close modal on overlay click
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+                if (breathingInterval) { clearInterval(breathingInterval); breathingInterval = null; }
+            }
+        });
+
+        function handleNewPost() { if (!isLoggedIn) openAuthModal(); else toggleNewPostForm(); }
+    </script>
+</body>
+</html>
