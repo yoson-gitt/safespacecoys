@@ -1038,8 +1038,17 @@
         function updateMatchDisplay() {
             try {
                 const match = MATCH_DATA.nextMatch;
-                $('homeTeamBadge').textContent = match.homeTeamBadge;
-                $('homeTeamName').textContent = match.homeTeam;
+                if (match.isHome) {
+                    $('homeTeamBadge').textContent = match.homeTeamBadge;
+                    $('homeTeamName').textContent = match.homeTeam;
+                    $('awayTeamBadge').textContent = match.awayTeamBadge;
+                    $('awayTeamName').textContent = match.awayTeam;
+                } else {
+                    $('homeTeamBadge').textContent = match.homeTeamBadge;
+                    $('homeTeamName').textContent = match.homeTeam;
+                    $('awayTeamBadge').textContent = '🤍';
+                    $('awayTeamName').textContent = 'Spurs';
+                }
                 $('matchVenue').textContent = match.venue;
                 $('matchCompetition').textContent = match.competition;
             } catch (e) {}
