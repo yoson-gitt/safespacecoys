@@ -1029,7 +1029,7 @@
             
             // Supabase 认证单独处理，不影响页面基本功能
             try {
-                const { data: { session } } = await supabase.auth.getSession();
+                const { data: { session } } = await supabaseClient.auth.getSession();
                 if (session) {
                     supabaseUser = session.user;
                     isLoggedIn = true;
@@ -1038,7 +1038,7 @@
                     updateUIForAuthState();
                 }
                 
-                supabase.auth.onAuthStateChange((event, session) => {
+                supabaseClient.auth.onAuthStateChange((event, session) => {
                     if (event === 'SIGNED_IN' && session) {
                         supabaseUser = session.user;
                         isLoggedIn = true;
@@ -1167,7 +1167,7 @@
             if (errorEl) errorEl.classList.remove('show');
             
             try {
-                const { error } = await supabase.auth.signInWithOtp({
+                const { error } = await supabaseClient.auth.signInWithOtp({
                     email: email,
                     options: { emailRedirectTo: window.location.origin }
                 });
@@ -1187,7 +1187,7 @@
 
         async function resendMagicLink() {
             var email = $('sentEmailAddress').textContent;
-            const { error } = await supabase.auth.signInWithOtp({
+            const { error } = await supabaseClient.auth.signInWithOtp({
                 email: email,
                 options: { emailRedirectTo: window.location.origin }
             });
@@ -1195,7 +1195,7 @@
         }
 
         async function handleLogout() {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             supabaseUser = null;
             isLoggedIn = false;
             userEmail = '';
@@ -1271,7 +1271,7 @@
             renderMoodChart();
             // sync Supabase
             if (supabaseUser) {
-                supabase.from('mood_entries').insert({
+                supabaseClient.from('mood_entries').insert({
                     user_id: supabaseUser.id,
                     emotion: selectedEmotion.name,
                     intensity: intensity,
@@ -1562,7 +1562,7 @@
             communityPosts.unshift(newPost);
             //  Supabase
             if (supabaseUser) {
-                supabase.from('posts').insert({
+                supabaseClient.from('posts').insert({
                     user_id: supabaseUser.id,
                     content: content,
                     post_type: currentPostType,
