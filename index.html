@@ -49,6 +49,9 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://safespacecoys.com/">
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
         :root {
@@ -643,17 +646,17 @@
                 <div class="next-match-label"><span class="live-dot"></span>Next Match</div>
                 <div class="match-teams">
                     <div class="team">
-                        <div class="team-badge" id="homeTeamBadge">🤍</div>
-                        <div class="team-name" id="homeTeamName">Spurs</div>
+                        <div class="team-badge" id="homeTeamBadge">🔴</div>
+                        <div class="team-name" id="homeTeamName">Man United</div>
                     </div>
                     <div class="match-vs">vs</div>
                     <div class="team">
-                        <div class="team-badge" id="awayTeamBadge">🔵</div>
-                        <div class="team-name" id="awayTeamName">Man City</div>
+                        <div class="team-badge" id="awayTeamBadge">🤍</div>
+                        <div class="team-name" id="awayTeamName">Spurs</div>
                     </div>
                 </div>
                 <div class="match-info">
-                    <div class="match-info-item"><span>📍</span><span id="matchVenue">Emirates</span></div>
+                    <div class="match-info-item"><span>📍</span><span id="matchVenue">Old Trafford</span></div>
                     <div class="match-info-item"><span>🏆</span><span id="matchCompetition">PL</span></div>
                 </div>
                 <div class="countdown">
@@ -930,14 +933,14 @@
         // ==========================================
         const MATCH_DATA = {
             nextMatch: {
-                date: '2026-02-01T16:30:00',
-                homeTeam: 'Spurs',
-                homeTeamBadge: '🤍',
-                awayTeam: 'Man City',
-                awayTeamBadge: '🔵',
-                venue: 'Tottenham Hotspur Stadium',
+                date: '2026-02-07T12:30:00',
+                homeTeam: 'Man United',
+                homeTeamBadge: '🔴',
+                awayTeam: 'Spurs',
+                awayTeamBadge: '🤍',
+                venue: 'Old Trafford',
                 competition: 'Premier League',
-                isHome: true
+                isHome: false
             },
             lastTrophyDate: '2025-05-21'
         };
@@ -958,7 +961,12 @@
         let currentPostType = 'vent';
         let breathingInterval = null;
         let groundingStep = 5;
-
+        let supabaseUser = null;
+        
+        // Supabase Config
+        const SUPABASE_URL = 'https://bjodaghpowjqnlhclbdg.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqb2RhZ2hwb3dqcW5saGNsYmRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5NDU3MzgsImV4cCI6MjA4NTUyMTczOH0.c1GpOXl-2kwEIv23EYyD2PhR52x9q1QA3F4HHZK4zd4';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         // ==========================================
         // UTILITIES
         // ==========================================
@@ -1004,8 +1012,9 @@
         // ==========================================
         // INIT
         // ==========================================
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             try {
+                // 先执行核心功能
                 loadState();
                 updateMatchDisplay();
                 updateDroughtCounter();
@@ -1017,6 +1026,31 @@
                 renderCheckinHistory();
                 renderMoodChart();
             } catch (e) { console.error('Init error:', e); }
+            
+            // Supabase 认证单独处理，不影响页面基本功能
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    supabaseUser = session.user;
+                    isLoggedIn = true;
+                    userEmail = session.user.email;
+                    saveToStorage('email', userEmail);
+                    updateUIForAuthState();
+                }
+                
+                supabase.auth.onAuthStateChange((event, session) => {
+                    if (event === 'SIGNED_IN' && session) {
+                        supabaseUser = session.user;
+                        isLoggedIn = true;
+                        userEmail = session.user.email;
+                        saveToStorage('email', userEmail);
+                        updateUIForAuthState();
+                        closeAuthModal();
+                    }
+                });
+            } catch (authError) { 
+                console.warn('Supabase auth error:', authError); 
+            }
         });
 
         function loadState() {
@@ -1118,7 +1152,7 @@
         
         function closeAuthModal() { $('authModal').classList.remove('active'); }
 
-        function sendMagicLink() {
+        async function sendMagicLink() {
             var email = $('authEmail').value.trim();
             var errorEl = $('emailError');
             var inputEl = $('authEmail');
@@ -1132,23 +1166,37 @@
             if (inputEl) inputEl.classList.remove('error');
             if (errorEl) errorEl.classList.remove('show');
             
-            $('authForm').style.display = 'none';
-            $('emailSent').style.display = 'block';
-            $('sentEmailAddress').textContent = email;
-            
-            // Simulate login after 1.5s
-            setTimeout(function() {
-                isLoggedIn = true;
-                userEmail = email;
-                saveToStorage('email', email);
-                updateUIForAuthState();
-                closeAuthModal();
-            }, 1500);
+            try {
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: email,
+                    options: { emailRedirectTo: window.location.origin }
+                });
+                
+                if (error) {
+                    alert('Error: ' + error.message);
+                    return;
+                }
+                
+                $('authForm').style.display = 'none';
+                $('emailSent').style.display = 'block';
+                $('sentEmailAddress').textContent = email;
+            } catch (e) {
+                alert('Error sending magic link');
+            }
         }
 
-        function resendMagicLink() { alert('Magic link resent!'); }
+        async function resendMagicLink() {
+            var email = $('sentEmailAddress').textContent;
+            const { error } = await supabase.auth.signInWithOtp({
+                email: email,
+                options: { emailRedirectTo: window.location.origin }
+            });
+            alert(error ? 'Error: ' + error.message : 'Magic link resent!');
+        }
 
-        function handleLogout() {
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            supabaseUser = null;
             isLoggedIn = false;
             userEmail = '';
             localStorage.removeItem('ssc_email');
@@ -1221,6 +1269,15 @@
             updateStats();
             renderCheckinHistory();
             renderMoodChart();
+            // sync Supabase
+            if (supabaseUser) {
+                supabase.from('mood_entries').insert({
+                    user_id: supabaseUser.id,
+                    emotion: selectedEmotion.name,
+                    intensity: intensity,
+                    trigger: selectedTrigger || null
+                });
+            }
         }
 
         function renderCheckinHistory() {
@@ -1503,6 +1560,15 @@
             };
             
             communityPosts.unshift(newPost);
+            //  Supabase
+            if (supabaseUser) {
+                supabase.from('posts').insert({
+                    user_id: supabaseUser.id,
+                    content: content,
+                    post_type: currentPostType,
+                    category: 'general'
+                });
+            }
             saveToStorage('posts', communityPosts);
             
             $('newPostContent').value = '';
