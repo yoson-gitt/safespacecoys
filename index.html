@@ -47,6 +47,9 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://safespacecoys.com/">
     
@@ -770,7 +773,7 @@
                         <div class="profile-avatar" id="profileAvatar">FS</div>
                         <div class="profile-info">
                             <div class="profile-name" id="profileName">Fellow Sufferer</div>
-                            <div class="profile-email" id="profileEmail">user@example.com</div>
+                            <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90e5e3f5e2d0f5e8f1fde0fcf5bef3fffd">[email&#160;protected]</a></div>
                             <div class="profile-since">🐓 Suffering since joining</div>
                         </div>
                         <div class="profile-actions">
@@ -817,7 +820,7 @@
                     <div class="auth-benefits"><div class="auth-benefits-title">With an account you can:</div><div class="auth-benefit"><span class="auth-benefit-icon">✓</span><span>Track your mood history over time</span></div><div class="auth-benefit"><span class="auth-benefit-icon">✓</span><span>See your personal stats and insights</span></div><div class="auth-benefit"><span class="auth-benefit-icon">✓</span><span>Connect with the community</span></div></div>
                 </div>
                 <div id="emailSent" style="display: none;">
-                    <div class="email-sent"><div class="email-sent-icon">📬</div><h3 class="email-sent-title">Check Your Inbox</h3><p class="email-sent-text">We've sent a magic link to<br><span class="email-sent-address" id="sentEmailAddress">you@example.com</span></p><p class="email-sent-text">Click the link to join. Expires in 24 hours.</p><p class="resend-link">Didn't receive it? <a onclick="resendMagicLink()">Resend</a></p></div>
+                    <div class="email-sent"><div class="email-sent-icon">📬</div><h3 class="email-sent-title">Check Your Inbox</h3><p class="email-sent-text">We've sent a magic link to<br><span class="email-sent-address" id="sentEmailAddress"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdc4d2c8fdd8c5dcd0cdd1d893ded2d0">[email&#160;protected]</a></span></p><p class="email-sent-text">Click the link to join. Expires in 24 hours.</p><p class="resend-link">Didn't receive it? <a onclick="resendMagicLink()">Resend</a></p></div>
                 </div>
             </div>
         </div>
@@ -924,7 +927,7 @@
         </button>
     </nav>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // ==========================================
         // MATCH DATA (Admin configurable)
         // ==========================================
@@ -958,6 +961,14 @@
         let currentPostType = 'vent';
         let breathingInterval = null;
         let groundingStep = 5;
+        let supabaseUser = null;
+
+        // ==========================================
+        // SUPABASE CONFIG
+        // ==========================================
+        const SUPABASE_URL = 'https://bjodaghpowjqnlhclbdg.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqb2RhZ2hwb3dqcW5saGNsYmRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5NDU3MzgsImV4cCI6MjA4NTUyMTczOH0.c1GpOXl-2kwEIv23EYyD2PhR52x9q1QA3F4HHZK4zd4';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // ==========================================
         // UTILITIES
@@ -1004,8 +1015,11 @@
         // ==========================================
         // INIT
         // ==========================================
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             try {
+                // 先检查 Supabase 会话
+                await checkSupabaseAuth();
+                
                 loadState();
                 updateMatchDisplay();
                 updateDroughtCounter();
@@ -1016,8 +1030,80 @@
                 updateStats();
                 renderCheckinHistory();
                 renderMoodChart();
+                
+                // 监听 Supabase 认证状态变化
+                supabase.auth.onAuthStateChange(async (event, session) => {
+                    if (event === 'SIGNED_IN' && session) {
+                        supabaseUser = session.user;
+                        isLoggedIn = true;
+                        userEmail = session.user.email;
+                        saveToStorage('email', userEmail);
+                        updateUIForAuthState();
+                        closeAuthModal();
+                        await loadUserDataFromSupabase();
+                        renderCommunityFeed();
+                    } else if (event === 'SIGNED_OUT') {
+                        supabaseUser = null;
+                        isLoggedIn = false;
+                        userEmail = '';
+                        localStorage.removeItem('ssc_email');
+                        updateUIForAuthState();
+                    }
+                });
             } catch (e) { console.error('Init error:', e); }
         });
+
+        async function checkSupabaseAuth() {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    supabaseUser = session.user;
+                    isLoggedIn = true;
+                    userEmail = session.user.email;
+                    saveToStorage('email', userEmail);
+                    await loadUserDataFromSupabase();
+                }
+            } catch (e) { console.error('Auth check error:', e); }
+        }
+
+        async function loadUserDataFromSupabase() {
+            if (!supabaseUser) return;
+            try {
+                // 加载心情记录
+                const { data: moodData } = await supabase
+                    .from('mood_entries')
+                    .select('*')
+                    .eq('user_id', supabaseUser.id)
+                    .order('created_at', { ascending: false });
+                if (moodData) {
+                    checkinHistory = moodData.map(m => ({
+                        emotion: m.emotion,
+                        emoji: getEmojiForEmotion(m.emotion),
+                        intensity: m.intensity,
+                        trigger: m.trigger,
+                        date: m.created_at
+                    }));
+                    renderCheckinHistory();
+                    renderMoodChart();
+                    updateStats();
+                }
+                
+                // 加载工具使用次数
+                const { count } = await supabase
+                    .from('tool_usage')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('user_id', supabaseUser.id);
+                if (count) {
+                    toolsUsed = count;
+                    updateStats();
+                }
+            } catch (e) { console.error('Load user data error:', e); }
+        }
+
+        function getEmojiForEmotion(emotion) {
+            const emojis = { frustrated: '😤', anxious: '😰', sad: '😔', numb: '😐', hopeful: '🤞', content: '😊' };
+            return emojis[emotion] || '😐';
+        }
 
         function loadState() {
             userEmail = loadFromStorage('email', '');
@@ -1118,7 +1204,7 @@
         
         function closeAuthModal() { $('authModal').classList.remove('active'); }
 
-        function sendMagicLink() {
+        async function sendMagicLink() {
             var email = $('authEmail').value.trim();
             var errorEl = $('emailError');
             var inputEl = $('authEmail');
@@ -1132,23 +1218,58 @@
             if (inputEl) inputEl.classList.remove('error');
             if (errorEl) errorEl.classList.remove('show');
             
-            $('authForm').style.display = 'none';
-            $('emailSent').style.display = 'block';
-            $('sentEmailAddress').textContent = email;
+            // 显示发送中状态
+            var btn = document.querySelector('#authForm .btn-primary');
+            var originalText = btn.textContent;
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
             
-            // Simulate login after 1.5s
-            setTimeout(function() {
-                isLoggedIn = true;
-                userEmail = email;
-                saveToStorage('email', email);
-                updateUIForAuthState();
-                closeAuthModal();
-            }, 1500);
+            try {
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: email,
+                    options: {
+                        emailRedirectTo: window.location.origin
+                    }
+                });
+                
+                if (error) {
+                    alert('Error: ' + error.message);
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+                
+                $('authForm').style.display = 'none';
+                $('emailSent').style.display = 'block';
+                $('sentEmailAddress').textContent = email;
+            } catch (e) {
+                alert('Error sending magic link. Please try again.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
         }
 
-        function resendMagicLink() { alert('Magic link resent!'); }
+        async function resendMagicLink() { 
+            var email = $('sentEmailAddress').textContent;
+            try {
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: email,
+                    options: {
+                        emailRedirectTo: window.location.origin
+                    }
+                });
+                if (error) alert('Error: ' + error.message);
+                else alert('Magic link resent!');
+            } catch (e) {
+                alert('Error resending. Please try again.');
+            }
+        }
 
-        function handleLogout() {
+        async function handleLogout() {
+            try {
+                await supabase.auth.signOut();
+            } catch (e) { console.error('Logout error:', e); }
+            supabaseUser = null;
             isLoggedIn = false;
             userEmail = '';
             localStorage.removeItem('ssc_email');
@@ -1208,7 +1329,7 @@
             selectedTrigger = el.textContent;
         }
 
-        function saveCheckin() {
+        async function saveCheckin() {
             var checkin = {
                 emotion: selectedEmotion.name,
                 emoji: selectedEmotion.emoji,
@@ -1221,6 +1342,18 @@
             updateStats();
             renderCheckinHistory();
             renderMoodChart();
+            
+            // 同步到 Supabase
+            if (supabaseUser) {
+                try {
+                    await supabase.from('mood_entries').insert({
+                        user_id: supabaseUser.id,
+                        emotion: selectedEmotion.name,
+                        intensity: intensity,
+                        trigger: selectedTrigger || null
+                    });
+                } catch (e) { console.error('Save to Supabase error:', e); }
+            }
         }
 
         function renderCheckinHistory() {
@@ -1365,6 +1498,14 @@
             saveToStorage('toolsUsed', toolsUsed);
             updateStats();
             
+            // 同步到 Supabase
+            if (supabaseUser) {
+                supabase.from('tool_usage').insert({
+                    user_id: supabaseUser.id,
+                    tool_name: tool
+                }).then().catch(e => console.error('Tool usage save error:', e));
+            }
+            
             var title = $('toolModalTitle');
             var body = $('toolModalBody');
             
@@ -1463,16 +1604,60 @@
         // ==========================================
         // COMMUNITY
         // ==========================================
-        function renderCommunityFeed() {
+        async function renderCommunityFeed() {
             var container = $('communityFeed');
             if (!container) return;
             
+            // 先显示 loading
+            container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);">Loading posts...</div>';
+            
+            try {
+                // 从 Supabase 加载帖子
+                const { data, error } = await supabase
+                    .from('posts_with_author')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    communityPosts = data.map(p => ({
+                        id: p.id,
+                        author: p.display_name || 'Anonymous Yiddo',
+                        content: p.content,
+                        type: p.post_type,
+                        date: p.created_at,
+                        reactions: p.likes_count || 0,
+                        user_id: p.user_id
+                    }));
+                } else {
+                    // 如果数据库没有数据，使用默认帖子
+                    communityPosts = getDefaultPosts();
+                }
+            } catch (e) {
+                console.error('Load posts error:', e);
+                // 出错时使用本地存储
+                communityPosts = loadFromStorage('posts', getDefaultPosts());
+            }
+            
+            if (communityPosts.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);">No posts yet. Be the first to share!</div>';
+                return;
+            }
+            
             container.innerHTML = communityPosts.map(function(post) {
-                return '<div class="feed-post" data-id="' + post.id + '" data-type="' + post.type + '"><div class="post-header"><div class="post-avatar">' + (post.type === 'vent' ? '😤' : '🤝') + '</div><div class="post-meta"><div class="post-author">' + escapeHtml(post.author) + '</div><div class="post-time">' + formatDate(post.date) + '</div></div><span class="post-tag ' + post.type + '">' + (post.type === 'vent' ? '😤 Vent' : '🤝 Support') + '</span></div><div class="post-content">' + escapeHtml(post.content) + '</div><div class="post-actions"><button class="post-action-btn" onclick="reactToPost(' + post.id + ')">🤝 ' + post.reactions + '</button><button class="post-action-btn">💬 Reply</button></div></div>';
+                var isOwner = supabaseUser && post.user_id === supabaseUser.id;
+                var deleteBtn = isOwner ? '<button class="post-action-btn" onclick="deletePost(\'' + post.id + '\')">🗑️ Delete</button>' : '';
+                return '<div class="feed-post" data-id="' + post.id + '" data-type="' + post.type + '"><div class="post-header"><div class="post-avatar">' + (post.type === 'vent' ? '😤' : '🤝') + '</div><div class="post-meta"><div class="post-author">' + escapeHtml(post.author) + '</div><div class="post-time">' + formatDate(post.date) + '</div></div><span class="post-tag ' + post.type + '">' + (post.type === 'vent' ? '😤 Vent' : '🤝 Support') + '</span></div><div class="post-content">' + escapeHtml(post.content) + '</div><div class="post-actions"><button class="post-action-btn" onclick="reactToPost(\'' + post.id + '\')">🤝 ' + post.reactions + '</button><button class="post-action-btn">💬 Reply</button>' + deleteBtn + '</div></div>';
             }).join('');
         }
 
         function toggleNewPostForm() {
+            if (!isLoggedIn) {
+                openAuthModal();
+                return;
+            }
             var form = $('newPostForm');
             if (form) {
                 form.classList.toggle('active');
@@ -1489,33 +1674,88 @@
             currentPostType = btn.dataset.type;
         }
 
-        function submitPost() {
+        async function submitPost() {
             var content = $('newPostContent').value.trim();
             if (!content) return;
+            if (!supabaseUser) {
+                openAuthModal();
+                return;
+            }
             
-            var newPost = {
-                id: Date.now(),
-                author: userEmail ? userEmail.split('@')[0] : 'Anonymous',
-                content: content,
-                type: currentPostType,
-                date: new Date().toISOString(),
-                reactions: 0
-            };
+            var btn = document.querySelector('#newPostForm .btn-primary');
+            btn.textContent = 'Posting...';
+            btn.disabled = true;
             
-            communityPosts.unshift(newPost);
-            saveToStorage('posts', communityPosts);
+            try {
+                const { error } = await supabase.from('posts').insert({
+                    user_id: supabaseUser.id,
+                    content: content,
+                    post_type: currentPostType,
+                    category: 'general'
+                });
+                
+                if (error) throw error;
+                
+                $('newPostContent').value = '';
+                $('newPostForm').classList.remove('active');
+                await renderCommunityFeed();
+            } catch (e) {
+                console.error('Submit post error:', e);
+                alert('Failed to post. Please try again.');
+            }
             
-            $('newPostContent').value = '';
-            $('newPostForm').classList.remove('active');
-            renderCommunityFeed();
+            btn.textContent = 'Post';
+            btn.disabled = false;
         }
 
-        function reactToPost(postId) {
-            var post = communityPosts.find(function(p) { return p.id === postId; });
-            if (post) {
-                post.reactions++;
-                saveToStorage('posts', communityPosts);
-                renderCommunityFeed();
+        async function reactToPost(postId) {
+            if (!supabaseUser) {
+                openAuthModal();
+                return;
+            }
+            
+            try {
+                // 检查是否已点赞
+                const { data: existing } = await supabase
+                    .from('likes')
+                    .select('id')
+                    .eq('post_id', postId)
+                    .eq('user_id', supabaseUser.id)
+                    .single();
+                
+                if (existing) {
+                    // 取消点赞
+                    await supabase.from('likes').delete().eq('id', existing.id);
+                } else {
+                    // 添加点赞
+                    await supabase.from('likes').insert({
+                        post_id: postId,
+                        user_id: supabaseUser.id
+                    });
+                }
+                
+                await renderCommunityFeed();
+            } catch (e) {
+                // 如果是本地帖子，使用本地逻辑
+                var post = communityPosts.find(function(p) { return p.id === postId || p.id == postId; });
+                if (post) {
+                    post.reactions++;
+                    saveToStorage('posts', communityPosts);
+                    renderCommunityFeed();
+                }
+            }
+        }
+
+        async function deletePost(postId) {
+            if (!confirm('Delete this post?')) return;
+            
+            try {
+                const { error } = await supabase.from('posts').delete().eq('id', postId);
+                if (error) throw error;
+                await renderCommunityFeed();
+            } catch (e) {
+                console.error('Delete post error:', e);
+                alert('Failed to delete post.');
             }
         }
 
@@ -1572,13 +1812,11 @@
 
         // Close modal on overlay click
         document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal-overlay')) {
+            if (e.target.clas            if (e.target.classList.contains('modal-overlay')) {
                 e.target.classList.remove('active');
                 if (breathingInterval) { clearInterval(breathingInterval); breathingInterval = null; }
             }
         });
-
-        function handleNewPost() { if (!isLoggedIn) openAuthModal(); else toggleNewPostForm(); }
     </script>
 </body>
 </html>
